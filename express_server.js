@@ -1,10 +1,17 @@
 const express = require("express");
 const app = express();
 const PORT = 8080;
+
 const cookieSession = require("cookie-session");
 
 app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
+
+app.use(cookieSession({
+  name: 'session',
+  keys: ['THISISMYPROTECTION'],
+  maxAge: 24 * 60 * 60 * 1000,
+}));
 
 const users = {
   userRandomID: {
