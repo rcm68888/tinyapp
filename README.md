@@ -4,10 +4,10 @@ TinyApp is a full stack web application built with Node and Express that allows 
 
 ## Final Product
 
-Register: \\wsl.localhost\LHL\home\labber\lighthouse\focal\tinyapp\Register.PNG
-Login: \\wsl.localhost\LHL\home\labber\lighthouse\focal\tinyapp\Login.PNG
-My URLs: \\wsl.localhost\LHL\home\labber\lighthouse\focal\tinyapp\urls.PNG
-New URL: \\wsl.localhost\LHL\home\labber\lighthouse\focal\tinyapp\urls_new.PNG
+Register: https://github.com/rcm68888/tinyapp/blob/master/Register.PNG
+Login: https://github.com/rcm68888/tinyapp/blob/master/Login.PNG
+My URLs: https://github.com/rcm68888/tinyapp/blob/master/urls.PNG
+New URL: https://github.com/rcm68888/tinyapp/blob/master/urls_new.PNG
 
 
 ## Dependencies
