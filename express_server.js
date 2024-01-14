@@ -36,6 +36,14 @@ app.get("/hello", (req, res) => {
   res.send("<html><body>Hello <b>World</b></body></html>\n");
 });
 
+app.get("/urls", (req, res) => {
+  let templateVars = {
+    urls: urlsForUser(req.session.user_id, urlDatabase),
+    user: users[req.session.user_id],
+  };
+  res.render("urls_index", templateVars);
+});
+
 app.get("/u/:id", (req, res) => {
   // const longURL = ...
   res.redirect(longURL);
