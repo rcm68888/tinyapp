@@ -17,24 +17,6 @@ app.use(cookieSession({
   maxAge: 24 * 60 * 60 * 1000,
 }));
 
-/*const users = {
-  userRandomID: {
-    id: "userRandomID",
-    email: "user@example.com",
-    password: "purple-monkey-dinosaur",
-  },
-  user2RandomID: {
-    id: "user2RandomID",
-    email: "user2@example.com",
-    password: "dishwasher-funk",
-  },
-};*/
-
-/*const urlDatabase = {
-  "b2xVn2": "http://www.lighthouselabs.ca",
-  "9sm5xK": "http://www.google.com"
-};*/
-// GET request response routes & if w/ active session redirect to urls, else to login
 app.get("/", (req, res) => {
   if (userLoggedIn(req.session.user_id, users)) {
     res.redirect("/urls");
