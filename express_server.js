@@ -4,7 +4,7 @@ const PORT = 8080;
 const cookieSession = require("cookie-session");
 const bcrypt = require("bcrypt");
 
-const { generateRandomString, emailTaken, userIdFromEmail, urlsForUser, userLoggedIn } = require("./helper.js");
+const { generateRandomString, emailTaken, userIdFromEmail, urlsForUser, userLoggedIn } = require("./helpers.js");
 const urlDatabase = {};
 const users = {};
 
