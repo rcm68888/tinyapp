@@ -5,8 +5,22 @@ const cookieSession = require("cookie-session");
 const bcrypt = require("bcrypt");
 
 const { generateRandomString, emailTaken, userIdFromEmail, urlsForUser, userLoggedIn } = require("./helpers.js");
-const urlDatabase = {};
-const users = {};
+const urlDatabase = {
+  "b2xVn2": "http://www.lighthouselabs.ca",
+  "9sm5xK": "http://www.google.com"
+};
+const users = {
+  userRandomID: {
+    id: "userRandomID",
+    email: "user@example.com",
+    password: "purple-monkey-dinosaur",
+  },
+  user2RandomID: {
+    id: "user2RandomID",
+    email: "user2@example.com",
+    password: "dishwasher-funk",
+  },
+};
 
 app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
@@ -95,19 +109,6 @@ app.get("/u/:shortURL", (req, res) => {
     res.status(404).send("This short URL does not correspond with a long URL.");
   }
 });
-//POST request response routes
-app.post("/urls", (req, res) => {
-  if (req.session.user_id) {
-    const shortURL = generateRandomString();
-    urlDatabase[shortURL] = {
-      longURL: req.body.longURL,
-      userID: req.session.user_id,
-    };
-    res.redirect(`/urls/${shortURL}`);
-  } else {
-    res.status(401).send("Unauthorized, please login or register to perform action.");
-  }
-});
 //checks and registering a new user
 app.post("/register", (req, res) => {
   const newUserEmail = req.body.email;
@@ -138,10 +139,11 @@ app.post("/login", (req, res) => {
   } else {
     const userID = userIdFromEmail(email, users);
     if (!bcrypt.compareSync(password, users[userID].password)) {
-      res.status(403).send("Invalid password.");
-    } else {
       req.session.user_id = userID;
       res.redirect("/urls");
+    } else {
+      console.log(bcrypt.compareSync(password, users[userID].password));
+      res.status(403).send("Invalid password.");
     }
   }
 });
@@ -167,11 +169,36 @@ app.post("/urls/:id", (req, res) => {
   const userID = req.session.user_id;
   const userUrls = urlsForUser(userID, urlDatabase);
   if (Object.keys(userUrls).includes(req.params.id)) {
+    console.log(urlDatabase[req.params.id].userID+" / "+userID+" / "+userUrls)
     const shortURL = req.params.id;
+    //console.log(urlDatabase[shortURL].longURL);
     urlDatabase[shortURL].longURL = req.body.newURL;
     res.redirect('/urls');
   } else {
     res.status(401).send("Unauthorized.");
+  }
+});
+
+/*app.post("/urls/:id", (req, res) => {
+  if (urlDatabase[req.params.id].userID === req.session["userID"]) {
+    let longURL = req.body.longURL;
+    urlDatabase[req.params.id].longURL = longURL;
+    res.redirect('/urls');
+  } else {
+    res.status(403).send("Not permitted");
+  }
+});*/
+//POST request response routes
+app.post("/urls", (req, res) => {
+  if (req.session.user_id) {
+    const shortURL = generateRandomString();
+    urlDatabase[shortURL] = {
+      longURL: req.body.longURL,
+      userID: req.session.user_id,
+    };
+    res.redirect(`/urls/${shortURL}`);
+  } else {
+    res.status(401).send("Unauthorized, please login or register to perform action.");
   }
 });
 

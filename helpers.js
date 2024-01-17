@@ -7,10 +7,10 @@ function generateRandomString() {
 const emailTaken = function(email, userDatabase) {
   for (const user in userDatabase) {
     if (userDatabase[user].email === email) {
-      return true;
+      return userDatabase[user];
     }
   }
-  return false;
+  return undefined;
 };
 
 // returns the id for the user
@@ -23,9 +23,9 @@ const userIdFromEmail = function(email, userDatabase) {
 };
 
 // returns an object of short urls for the user
-const urlsForUser = function(id, urlDatabase) {
+const urlsForUser = (id, urlDatabase) => {
   const userUrls = {};
-  for (const shortURL in urlDatabase) {
+  for (let shortURL in urlDatabase) {
     if (urlDatabase[shortURL].userID === id) {
       userUrls[shortURL] = urlDatabase[shortURL];
     }
