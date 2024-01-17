@@ -142,7 +142,6 @@ app.post("/login", (req, res) => {
       req.session.user_id = userID;
       res.redirect("/urls");
     } else {
-      console.log(bcrypt.compareSync(password, users[userID].password));
       res.status(403).send("Invalid password.");
     }
   }
@@ -178,16 +177,6 @@ app.post("/urls/:id", (req, res) => {
     res.status(401).send("Unauthorized.");
   }
 });
-
-/*app.post("/urls/:id", (req, res) => {
-  if (urlDatabase[req.params.id].userID === req.session["userID"]) {
-    let longURL = req.body.longURL;
-    urlDatabase[req.params.id].longURL = longURL;
-    res.redirect('/urls');
-  } else {
-    res.status(403).send("Not permitted");
-  }
-});*/
 //POST request response routes
 app.post("/urls", (req, res) => {
   if (req.session.user_id) {
