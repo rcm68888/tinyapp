@@ -84,6 +84,20 @@ app.get("/login", (req, res) => {
   }
 });
 app.get("/urls/:shortURL", (req, res) => {
+  const userID = users[req.session.user_id];
+  const user = users[req.session.user_id];
+  if (!userID || !user) {
+    res.status(403).send('please Log-in or Register to use the App!');
+    return;
+  }
+
+  const shortURL = req.params.shortURL;
+  const urlRecord = urlDatabase[req.params.shortURL].userID;
+  if (!urlRecord) {
+    res.send('this short URL does not exist!');
+    return;
+  }
+  
   if (urlDatabase[req.params.shortURL]) {
     let templateVars = {
       shortURL: req.params.shortURL,
@@ -168,9 +182,7 @@ app.post("/urls/:id", (req, res) => {
   const userID = req.session.user_id;
   const userUrls = urlsForUser(userID, urlDatabase);
   if (Object.keys(userUrls).includes(req.params.id)) {
-    console.log(urlDatabase[req.params.id].userID+" / "+userID+" / "+userUrls)
     const shortURL = req.params.id;
-    //console.log(urlDatabase[shortURL].longURL);
     urlDatabase[shortURL].longURL = req.body.newURL;
     res.redirect('/urls');
   } else {
